@@ -16,32 +16,35 @@ import java.util.ArrayList;
  * @author sarun
  */
 public class BankFacade {
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       ArrayList<AccountIf> cust1Accounts = new ArrayList();
-       AccountIf acc = new BankAccount(12345);
-       acc.deposit(500);
-       cust1Accounts.add(acc);
-       acc = new BankAccount(12346);
-       acc.deposit(1000);
-       cust1Accounts.add(acc);
-       CustomerIf cust1 = new BankCustomer("John", cust1Accounts);
-       System.out.println("Customer and account information");
-       System.out.println("Name = " + cust1.getCustomerName());
-       System.out.println("Has " + cust1.getNumAccounts() + " accounts");
-       acc = cust1.getAccount(12345);
-       System.out.println("Account Number: " + acc.getAccountNumber() + " has " + acc.getBalance());
-       acc = cust1.getAccount(12346);
-       System.out.println("Account Number: " + acc.getAccountNumber() + " has " + acc.getBalance());
-       acc.deposit(1000);
-       System.out.println("Account Number: " + acc.getAccountNumber() + " has " + acc.getBalance());
-       ArrayList<AccountIf> accounts = cust1.getllAccounts();
-       for(AccountIf account : accounts) {
-           System.out.println("Account number " + account.getAccountNumber() + " has " + account.getBalance());
-       }
+        CustomFacade facade = new CustomFacade();
+        AccountIf account;
+        
+        System.out.println("------John-----");
+        
+        CustomerIf customer1 = facade.getBankCustomer("John");
+        System.out.println("Customer and account information");
+        System.out.println("Name = " + customer1.getCustomerName());
+        System.out.println("Has " + customer1.getNumAccounts() + " accounts");
+         
+        account = facade.getBankAccount(customer1, 111111);
+        System.out.println("Account Number: " + account.getAccountNumber() + " has " + account.getBalance());
+       
+        account = facade.getBankAccount(customer1, 67890);
+        System.out.println("Account Number: " + account.getAccountNumber() + " has " + account.getBalance());
+        
+        facade.doDeposit(800,customer1,67890);
+        System.out.println("Account Number: " + account.getAccountNumber() + " has " + account.getBalance());
+   
+        ArrayList<AccountIf> accounts =  facade.getBankCustomer("John").getllAccounts();
+         for(AccountIf accounted : accounts) {
+            System.out.println("Account number " + accounted.getAccountNumber() + " has " + accounted.getBalance());
+        }
+    
     }
     
 }
